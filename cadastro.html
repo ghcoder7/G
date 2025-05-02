@@ -100,13 +100,23 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
+            // Recupera os usuários do localStorage
             const users = JSON.parse(localStorage.getItem('users')) || [];
 
+            // Verifica se o username já existe
+            const userExists = users.some(user => user.username === username);
+            if (userExists) {
+                alert('Erro: Usuário já cadastrado!');
+                return;
+            }
+
+            // Adiciona o novo usuário
             users.push({ username, password });
             localStorage.setItem('users', JSON.stringify(users));
 
+            // Exibe mensagem de sucesso e redireciona para a página de login (index.html)
             alert('Cadastro realizado com sucesso!');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         });
     </script>
 </body>
