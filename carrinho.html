@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #fff;
+        }
+
+        header {
+            background-color: #1f1f1f;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: #1f1f1f;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        td {
+            color: #ddd;
+        }
+
+        .action-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: #a71d2a;
+        }
+
+        .finalizar {
+            display: block;
+            width: 220px;
+            margin: 30px auto;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .finalizar:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: right;
+            margin-right: 5%;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Seu Carrinho</h1>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Plano</th>
+                    <th>Preço</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="cartItems"></tbody>
+        </table>
+        <p class="total" id="totalPrice">Total: R$ 0,00</p>
+        <button class="finalizar" onclick="finalizePurchase()">Finalizar Compra</button>
+    </main>
+    <script>
+        // Carregar itens do carrinho
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItems = document.getElementById('cartItems');
+            const totalPrice = document.getElementById('totalPrice');
+            let total = 0;
+
+            cartItems.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.planName}</td>
+                    <td>R$ ${item.price.toFixed(2)}</td>
+                    <td><button class="action-btn" onclick="removeFromCart(${index})">Remover</button></td>
+                `;
+                cartItems.appendChild(row);
+                total += item.price;
+            });
+
+            totalPrice.textContent = `Total: R$ ${total.toFixed(2)}`;
+        }
+
+        // Remover item do carrinho
+        function removeFromCart(index) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        // Finalizar compra e abrir o WhatsApp
+        function finalizePurchase() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio! Adicione itens antes de finalizar a compra.');
+                return;
+            }
+
+            const phoneNumber = '5511919566362'; // Número do WhatsApp
+            const message = cart.map(item => `- ${item.planName} (R$ ${item.price.toFixed(2)})`).join('%0A');
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            const whatsappMessage = `Olá, gostaria de confirmar meu pedido:%0A%0A${message}%0A%0ATotal: R$ ${total.toFixed(2)}%0A%0AAguardo seu retorno.`;
+            window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, '_blank');
+        }
+
+        loadCart(); // Inicializar
+    </script>
+</body>
+</html>

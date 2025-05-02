@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images5.alphacoders.com/101/1015389.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            color: #000;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .continue-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .continue-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Planos Disponíveis</h1>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Plano</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Vivo Controle</td>
+                    <td>Plano mensal com 10GB de internet</td>
+                    <td>R$ 100,00</td>
+                    <td><button onclick="addToCart('Vivo Controle', 100)">Adicionar</button></td>
+                </tr>
+                <tr>
+                    <td>Vivo Controle Entretenimento</td>
+                    <td>Plano mensal com 20GB de internet e apps inclusos</td>
+                    <td>R$ 105,00</td>
+                    <td><button onclick="addToCart('Vivo Controle Entretenimento', 105)">Adicionar</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="continue-btn" onclick="goToCart()">Continuar</button>
+    </main>
+    <script>
+        // Adicionar item ao carrinho
+        function addToCart(planName, price) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ planName, price });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${planName} foi adicionado ao carrinho!`);
+        }
+
+        // Redirecionar para a página do carrinho
+        function goToCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert('Adicione pelo menos um plano ao carrinho antes de continuar.');
+                return;
+            }
+            window.location.href = './carrinho.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('https://images5.alphacoders.com/101/1015389.jpg'); /* URL do wallpaper */
+    background-size: cover; /* Faz a imagem cobrir todo o fundo */
+    background-position: center; /* Centraliza a imagem */
+    background-attachment: fixed; /* Mantém a imagem fixa ao rolar */
+    color: #fff; /* Define a cor do texto para branco */
+}

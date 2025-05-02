@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images5.alphacoders.com/101/1015389.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .register-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .register-container h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .register-container label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-align: left;
+            color: #bbb;
+        }
+
+        .register-container input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #222;
+            color: #fff;
+        }
+
+        .register-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .register-container button:hover {
+            background-color: #218838;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .register-container {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Cadastro</h1>
+        <form id="registerForm">
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert('Cadastro realizado com sucesso!');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>
