@@ -4,108 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produtos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background: #f4f4f4;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images5.alphacoders.com/101/1015389.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
         }
 
-        .container {
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h1 {
             text-align: center;
-            margin-bottom: 20px;
+            color: #fff;
         }
 
-        .product {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: #fff;
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
             border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 12px;
+            text-align: center;
+            color: #000;
         }
 
-        .product button {
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
             background-color: #007bff;
             color: white;
             border: none;
+            padding: 8px 12px;
             border-radius: 5px;
-            padding: 10px 15px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
-        .product button:hover {
+        button:hover {
             background-color: #0056b3;
         }
 
-        .finalizar {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .finalizar button {
+        .continue-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 12px;
             background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 15px 20px;
             font-size: 16px;
+            text-align: center;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
-        .finalizar button:hover {
+        .continue-btn:hover {
             background-color: #218838;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Produtos</h1>
-        <div class="product">
-            <span>Produto 1</span>
-            <button onclick="addToCart('Produto 1')">Adicionar ao Carrinho</button>
-        </div>
-        <div class="product">
-            <span>Produto 2</span>
-            <button onclick="addToCart('Produto 2')">Adicionar ao Carrinho</button>
-        </div>
-        <div class="product">
-            <span>Produto 3</span>
-            <button onclick="addToCart('Produto 3')">Adicionar ao Carrinho</button>
-        </div>
-        <div class="finalizar">
-            <button onclick="finalizePurchase()">Finalizar Compra</button>
-        </div>
-    </div>
+    <header>
+        <h1>Planos Disponíveis</h1>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Plano</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Vivo Controle</td>
+                    <td>Plano 3 MESES com 65gb de internet</td>
+                    <td>R$ 65,00</td>
+                    <td><button onclick="addToCart('Vivo Controle', 65)">Adicionar</button></td>
+                </tr>
+                <tr>
+                    <td>Vivo Controle Entretenimento</td>
+                    <td>Plano 3 MESES com 70gb de internet e apps inclusos</td>
+                    <td>R$ 75,00</td>
+                    <td><button onclick="addToCart('Vivo Controle Entretenimento', 75)">Adicionar</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="continue-btn" onclick="goToCart()">Continuar</button>
+    </main>
     <script>
-        let cart = [];
-
-        function addToCart(product) {
-            cart.push(product);
-            alert(product + ' foi adicionado ao carrinho!');
+        // Adicionar item ao carrinho
+        function addToCart(planName, price) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ planName, price });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${planName} foi adicionado ao carrinho!`);
         }
 
-        function finalizePurchase() {
+        // Redirecionar para a página do carrinho
+        function goToCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
             if (cart.length === 0) {
-                alert('Seu carrinho está vazio!');
+                alert('Adicione pelo menos um plano ao carrinho antes de continuar.');
                 return;
             }
-
-            const message = `Olá, gostaria de comprar os seguintes produtos: ${cart.join(', ')}`;
-            const whatsappURL = `https://wa.me/5500000000000?text=${encodeURIComponent(message)}`; // Substitua o número por seu WhatsApp
-            window.location.href = whatsappURL;
+            window.location.href = './carrinho.html';
         }
     </script>
 </body>
