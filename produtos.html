@@ -3,139 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Produtos</title>
     <style>
         body {
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background-image: url('https://images5.alphacoders.com/101/1015389.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: #fff;
+            background: #f4f4f4;
+            color: #333;
         }
 
-        .login-container {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
             text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .login-container h1 {
-            font-size: 28px;
             margin-bottom: 20px;
-            color: #fff;
         }
 
-        .login-container label {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 8px;
-            text-align: left;
-            color: #bbb;
-        }
-
-        .login-container input {
-            width: 100%;
-            padding: 12px;
+        .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
-            border: 1px solid #555;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 16px;
-            background: #222;
-            color: #fff;
         }
 
-        .login-container button {
-            width: 100%;
-            padding: 12px;
+        .product button {
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .product button:hover {
+            background-color: #0056b3;
+        }
+
+        .finalizar {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .finalizar button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 20px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
-        .login-container button:hover {
-            background-color: #0056b3;
-        }
-
-        .login-container .register-link {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #007bff;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .login-container .register-link:hover {
-            text-decoration: underline;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .login-container {
-            animation: fadeIn 0.8s ease-in-out;
+        .finalizar button:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h1>Login</h1>
-        <form id="loginForm">
-            <div class="error-message" id="errorMessage" style="display: none;">Usuário ou senha incorretos!</div>
-            <label for="username">Usuário:</label>
-            <input type="text" id="username" name="username" required>
-            
-            <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" required>
-            
-            <button type="submit">Entrar</button>
-        </form>
-        <a href="cadastro.html" class="register-link">Não tem cadastro? Cadastre-se aqui</a>
+    <div class="container">
+        <h1>Produtos</h1>
+        <div class="product">
+            <span>Produto 1</span>
+            <button onclick="addToCart('Produto 1')">Adicionar ao Carrinho</button>
+        </div>
+        <div class="product">
+            <span>Produto 2</span>
+            <button onclick="addToCart('Produto 2')">Adicionar ao Carrinho</button>
+        </div>
+        <div class="product">
+            <span>Produto 3</span>
+            <button onclick="addToCart('Produto 3')">Adicionar ao Carrinho</button>
+        </div>
+        <div class="finalizar">
+            <button onclick="finalizePurchase()">Finalizar Compra</button>
+        </div>
     </div>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        let cart = [];
 
-            // Recupera os usuários do localStorage
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            console.log('Usuários cadastrados:', users); // Depuração: Exibe os dados no console
+        function addToCart(product) {
+            cart.push(product);
+            alert(product + ' foi adicionado ao carrinho!');
+        }
 
-            // Verifica se o usuário existe e a senha está correta
-            const user = users.find(user => user.username === username && user.password === password);
-
-            if (user) {
-                console.log('Login bem-sucedido para o usuário:', username); // Depuração
-                window.location.href = 'produtos.html'; // Redireciona
-            } else {
-                console.log('Usuário ou senha incorretos!'); // Depuração
-                const errorMessage = document.getElementById('errorMessage');
-                errorMessage.style.display = 'block';
+        function finalizePurchase() {
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
             }
-        });
+
+            const message = `Olá, gostaria de comprar os seguintes produtos: ${cart.join(', ')}`;
+            const whatsappURL = `https://wa.me/5500000000000?text=${encodeURIComponent(message)}`; // Substitua o número por seu WhatsApp
+            window.location.href = whatsappURL;
+        }
     </script>
 </body>
 </html>
